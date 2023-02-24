@@ -1,7 +1,7 @@
 # PHSX815_Week6
 Repository for Week 6 for Computational Physics at KU Spring 2023 
 
-## Integrate.py
+## integrate.py
 Script to calculate numerical integrals using the trapezoidal rule and Gaussian-Legendre quadrature
 
 ### Usage:
