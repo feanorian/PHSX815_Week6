@@ -18,4 +18,4 @@ Script to calculate numerical integrals using the trapezoidal rule and Gaussian-
 `-step`  step width for trapezoidal integral 
 
 
-`-root`  weights/root for polynomial in Gaussian-Legendre integral 
+`-root`  weights/roots for polynomial in Gaussian-Legendre integral 
