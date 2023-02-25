@@ -18,7 +18,7 @@ import pandas as pd
 import seaborn as sns
 from scipy.integrate import trapz
 import sympy 
-import matplotlib.patches as patches
+
 
 if __name__ == "__main__":
 
