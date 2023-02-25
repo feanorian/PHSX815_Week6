@@ -1,4 +1,3 @@
-
 import sys
 import numpy as np
 from scipy.special import p_roots
@@ -7,6 +6,8 @@ import csv
 import pandas as pd
 import seaborn as sns
 from scipy.integrate import trapz
+import sympy 
+import matplotlib.patches as patches
 
 if __name__ == "__main__":
 
@@ -21,10 +22,10 @@ if __name__ == "__main__":
 
 	if '-start' in sys.argv:
 	    p = sys.argv.index('-start')
-	    start = int(sys.argv[p+1])
+	    start = float(sys.argv[p+1])
 	if '-end' in sys.argv:
 	    p = sys.argv.index('-end')
-	    end = int(sys.argv[p+1])
+	    end = float(sys.argv[p+1])
 	if '-step' in sys.argv:
 	    p = sys.argv.index('-step')
 	    steps = int(sys.argv[p+1])
@@ -32,20 +33,17 @@ if __name__ == "__main__":
 	    p = sys.argv.index('-root')
 	    root = int(sys.argv[p+1])
 
-	# Trapezoidal Integral  
-	
-	# defines the domain of the integral and the number of steps
+	left= 0
+	bottom= .5
+
+	# Trapezoidal Integral for n steps 
 	interval = np.linspace(start, end, steps+1)
 	
-	# Calculates the step size
 	step_size = (end - start)/(len(interval) - 1)
-	
-	# Stores the value of the trapezoidal integral
 	integral = 0
-	
-	# Calculates the trapezoidal integral
 	for i in range(len(interval)-1):
 	    integral += f(interval[i])
+	    
 	avg = (f(interval[0]) + f(interval[-1]))/2
 	trap_int = step_size *(integral + avg)
 
@@ -54,21 +52,35 @@ if __name__ == "__main__":
 	sums = [w[i]*f(((end - start)/2)*x[i] + (start+end)/2) for i in range(len(x))]
 	gauss_int = ((end - start)/2)*np.sum(sums)
 
+	# Analytical solution
+
+	xx = sympy.Symbol('x')
+	yy = sympy.Symbol('y')
+	actual_int = float(sympy.integrate(xx**5 - 4*xx**4 + 7*xx**3 + xx**2 - 2*xx + 3, (xx,start,end)))
+
 	print(f'Trapezoidal approx:  {round(trap_int,5)}')
 	print(f'Gaussian-Legendre approx:   {round(gauss_int,5)}')
-	print(f'Difference: {100*round(np.abs(trap_int - gauss_int)/np.abs(gauss_int),2)} %')  
-	
+	print(f'Actual: {round(actual_int,5)}')
+	print(f'Difference (Trap-Gauss): {100*round(np.abs(trap_int - gauss_int)/np.abs(gauss_int),2)} %')  
+	print(f'Difference (Trapezoidal): {100*round(np.abs(actual_int - trap_int)/np.abs(actual_int),2)} %')
+	print(f'Difference (Gaussian-Legendre): {100*round(np.abs(actual_int - gauss_int)/np.abs(actual_int),2)} %')
+
 	# Plots the function and the trapezoidal approximation
 	fig, ax = plt.subplots(1,1)
 	x = np.arange(start,end+1,.1)
 	y = f(x)
 	ax.plot(x,y, 'k-', label='f(x) actual')
-	plt.text(np.min(interval),f(np.max(interval))/2 , f'Trapezoidal approx:  {round(trap_int,5)}' + '\n' + f'Gaussian-Legendre approx:   {round(gauss_int,5)}' + '\n' + f'Difference: {100*round(np.abs(trap_int - gauss_int)/np.abs(gauss_int),2)} %')
+	ax.text(left,bottom, f'Trapezoidal approx:  {round(trap_int,5)}' + '\n'
+		+ f'Gaussian-Legendre approx:   {round(gauss_int,5)}' + '\n' 
+		+ f'Actual: {round(actual_int,5)}' + '\n'
+		+ f'Difference (Trap-Gauss): {100*round(np.abs(trap_int - gauss_int)/np.abs(gauss_int),2)} %' + '\n'
+		+ f'Difference (Trapezoidal): {100*round(np.abs(actual_int - trap_int)/np.abs(actual_int),2)} %' + '\n'  
+		+ f'Difference (Gaussian-Legendre): {100*round(np.abs(actual_int - gauss_int)/np.abs(actual_int),2)} %')
 	area = trapz(f(interval), interval)
 	plt.vlines(start, ymin=0, ymax=f(start), label=f'lower: {start}', colors='red')
 	plt.vlines(end, ymin=0, ymax=f(end), label=f'upper: {end}', colors='green')
 	ax.fill_between(interval, 0, f(interval))
-	plt.ylim(f(min(interval))-5, f(max(interval))+5)
+	plt.ylim(f(min(interval)), f(max(interval))+f(max(interval))*2)
 	plt.legend()
 	plt.show()
 
