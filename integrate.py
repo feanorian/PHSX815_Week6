@@ -1,3 +1,14 @@
+
+"""
+Name: Craig Brooks
+PHSX 815 Spring 2023
+HW # 6
+Due Date 2/24/2023
+This code reads performs numerical integration on a function using the trapezoid method and Gaussian quadrature
+"""
+
+
+
 import sys
 import numpy as np
 from scipy.special import p_roots
