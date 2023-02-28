@@ -21,7 +21,7 @@ HW #6: Script to calculate numerical integrals using the trapezoidal rule and Ga
 `-root`  weights/roots for polynomial in Gaussian-Legendre integral 
 
 ## mc_int_ellipse.py
-HW #7: Script to perform Monte Carlo integration. In this case, it is an elliptical funtion with the presumption that it is centered at the origin. 
+HW #7: Script to perform Monte Carlo integration. In this case, it is an elliptical function with the presumption that it is centered at the origin. 
 
 ### Usage:
 
@@ -40,3 +40,7 @@ HW #7: Script to perform Monte Carlo integration. In this case, it is an ellipti
 `-yhigh`   upper limit of integral in the y-direction
 
 `-samp`    number of points to plot
+
+To plot the points for the Monte Carlo integration, we referred to Stack0verflow to ensure we correctly marked points inside the ellipse
+
+Source: https://stackoverflow.com/questions/37031356/check-if-points-are-inside-ellipse-faster-than-contains-point-method
