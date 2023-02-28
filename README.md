@@ -19,3 +19,24 @@ Script to calculate numerical integrals using the trapezoidal rule and Gaussian-
 
 
 `-root`  weights/roots for polynomial in Gaussian-Legendre integral 
+
+## mc_int_ellipse.py
+Script to perform Monte Carlo integration. In this case, it is an elliptical funtion with the presumption that it is centered at the origin. 
+
+### Usage:
+
+` python3 mc_int_ellipse.py [-xlow -xhigh -ylow -yhigh -samp ]`
+
+
+`-xlow ` lower limit of integral in the x-direction
+
+
+`-xhigh`   upper limit of integral in the y-direction
+
+
+`-ylow ` lower limit of integral in the y-direction
+
+
+`-yhigh`   upper limit of integral in the y-direction
+
+`-samp`    number of points to plot
