@@ -16,6 +16,7 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import sympy 
 
 if __name__ == "__main__":
 	# if the user includes the flag -h or --help print the options
@@ -79,14 +80,22 @@ if __name__ == "__main__":
 	f_stdev = np.std(f)
 	area = (xhigh - xlow)*(yhigh - ylow)
 	integral = f_avg * area
-	error = (area * f_stdev )/ np.sqrt(samples)
 	
+	# computes the error
+	error = f_stdev / np.sqrt(samples)
+	
+	# Analytical solution
+	x_a = sympy.Symbol('x')
+	y_a = sympy.Symbol('y')
+	actual_int = float(sympy.integrate(3*x_a**2 + 2*y_a**2, (x_a,xlow,xhigh), (y_a, ylow, yhigh)))
+
 	print(integral)
+	print(actual_int)
 	print(error)
 
 	# Plots the parameterized ellipse and the Monte Carlo approximation of the ellipse
 	fig, ax = plt.subplots(1)
-	ax.set_aspect('equal')
+	#ax.set_aspect('equal')
 	ell_center = (0, 0)
 	ell_width = xhigh-xlow
 	ell_height = yhigh-ylow
@@ -110,10 +119,13 @@ if __name__ == "__main__":
 	plt.plot(x_space, h(x_space), color='y')
 	plt.vlines(xlow, ymin=ylow,ymax=yhigh,colors='y')
 	plt.vlines(xhigh, ymin=ylow,ymax=yhigh, colors='y')
-	plt.text(.5, 1, f'Area: {round(integral, 4)}' + '\n' + f'Error: {round(error, 4)}', color='white')
+	plt.text(.5, 1, f'Area: {round(integral, 4)}' + '\n' 
+		+f'Actual: {round(actual_int,4)}' + '\n'
+		+ f'Difference (Actual vs MC) : {100*round(np.abs(actual_int - integral)/np.abs(actual_int),3)} %' + '\n'
+		+ f'Error: {round(error, 4)}', color='black')
+		
 	plt.xlabel('x')
 	plt.ylabel('y')
 	plt.tight_layout()
 	plt.show()
-
 	
